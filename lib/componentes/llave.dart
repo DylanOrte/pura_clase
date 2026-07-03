@@ -3,31 +3,38 @@ import 'package:pura_clase/diseños/colores.dart';
 
 class Llave extends StatefulWidget {
   final String numLlave;
-  final String profesor;
-  const Llave({super.key, required this.numLlave, required this.profesor});
+  const Llave({super.key, required this.numLlave});
 
   @override
   State<Llave> createState() => _LlaveState();
 }
 
 class _LlaveState extends State<Llave> {
+  final TextEditingController _controller = TextEditingController();
+  String profesor = "No tomada";
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120,
-      height: 100,
-      color: Colores.fondo2,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: profesor == "No tomada" ? Colores.fondo2 : Colores.secundario,
+      ),
+      width: 150,
+      height: 120,
       child: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                widget.numLlave,
-                style: TextStyle(color: Colores.letra, fontSize: 25),
-                textAlign: TextAlign.center,
+              SizedBox(
+                width: double.infinity,
+                child: Text(
+                  widget.numLlave,
+                  style: TextStyle(color: Colors.black, fontSize: 25),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              Text(widget.profesor, style: TextStyle(color: Colors.black)),
+              Text(profesor, style: TextStyle(color: Colors.black)),
             ],
           ),
           Positioned.fill(
@@ -37,11 +44,19 @@ class _LlaveState extends State<Llave> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text(widget.numLlave),
-                      content: TextField(),
+                      title: Text("Ingrese el nombre del profesor que utilizara la llave: "),
+                      content: TextField(
+                        controller: _controller,
+                        decoration: InputDecoration(hintText: "Nombre del profesor"),
+                        maxLength: 20,
+                      ),
                       actions: [
                         TextButton(
                           onPressed: () {
+                            setState(() {
+                              _controller.text != "" ? profesor = _controller.text : profesor = "No tomada";
+                              _controller.text = "";
+                            });
                             Navigator.of(context).pop();
                           },
                           child: Text("Cerrar"),
@@ -53,6 +68,19 @@ class _LlaveState extends State<Llave> {
               },
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(top:65, left: 14),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colores.primario,
+                foregroundColor: Colores.fondo2
+              ),
+              onPressed: () {
+              setState(() {
+                profesor = "No tomada";
+              });
+            }, child: Text("Desasignar"),),
+          )
         ],
       ),
     );

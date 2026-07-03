@@ -18,19 +18,50 @@ class _MyWidgetState extends State<Principal> {
           height: 150,
           width: double.infinity,
           alignment: Alignment.center,
-          child: Text("Llaves", style: TextStyle(color: Colores.letra, fontSize: 40)),
+          child: Text("Llaves", style: TextStyle(color: Colores.letra, fontSize: 50, fontWeight:  FontWeight(700))),
         ),
-        Text("Pabellón 1: ", style: TextStyle(color: Colors.black, fontSize: 20),),
+        Text("Pabellón 1: ", style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight(500)),),
         SizedBox(height: 30,),
         Row(
           children: [
             Spacer(),
-            Llave(numLlave: "1", profesor: "Johan Granados",),
+            Llave(numLlave: "1"),
             Spacer(),
-            Llave(numLlave: "2", profesor: "Fernely Artavia",),
+            Llave(numLlave: "2"),
             Spacer()
           ],
-        )
+        ),
+        Spacer(),
+        Row(
+          children: [
+            Spacer(),
+            Llave(numLlave: "3"),
+            Spacer(),
+            Llave(numLlave: "4"),
+            Spacer()
+          ],
+        ),
+        Spacer(),
+        Row(
+          children: [
+            Spacer(),
+            Llave(numLlave: "5"),
+            Spacer(),
+            Llave(numLlave: "6"),
+            Spacer()
+          ],
+        ),
+        Spacer(),
+        Row(
+          children: [
+            Spacer(),
+            Llave(numLlave: "7"),
+            Spacer(),
+            Llave(numLlave: "8"),
+            Spacer()
+          ],
+        ),
+        Spacer()
       ],
     );
   }
