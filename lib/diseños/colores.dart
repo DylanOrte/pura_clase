@@ -6,4 +6,5 @@ class Colores {
   static const Color tercero = Color(0xFF087371);
   static const Color letra = Color(0xFF5c7f86);
   static const Color fondo = Color(0xFF172736);
+  static const Color fondo2 = Color(0xD9D9D9D9);
 }

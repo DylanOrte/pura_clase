@@ -1,6 +1,6 @@
-import 'dart:ffi';
-import 'package:pura_clase/nucleo/colores.dart';
+import 'package:pura_clase/diseños/colores.dart';
 import 'package:flutter/material.dart';
+import 'package:pura_clase/pantallas/principal.dart';
 
 class InicioSesion extends StatefulWidget {
   const InicioSesion({super.key});
@@ -12,7 +12,7 @@ class InicioSesion extends StatefulWidget {
 class _InicioSesionState extends State<InicioSesion> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: double.infinity,
       child: Column(
@@ -48,7 +48,12 @@ class _InicioSesionState extends State<InicioSesion> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(decoration: InputDecoration(hintText: "Ingrese su nombre", border: OutlineInputBorder()),),
-                  )
+                  ),
+                  ElevatedButton(onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Principal()));
+                  }, child: null,),
                 ],
               ),
             ),
