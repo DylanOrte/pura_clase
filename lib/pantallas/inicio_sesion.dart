@@ -1,3 +1,6 @@
+import 'package:pura_clase/componentes/btnCrearCuenta.dart';
+import 'package:pura_clase/componentes/entradaDeTexto_IS.dart';
+import 'package:pura_clase/componentes/texto_IS.dart';
 import 'package:pura_clase/diseños/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:pura_clase/pantallas/principal.dart';
@@ -10,6 +13,12 @@ class InicioSesion extends StatefulWidget {
 }
 
 class _InicioSesionState extends State<InicioSesion> {
+  final controladorNombre = TextEditingController();
+  final controladorCorreo = TextEditingController();
+  final controladorContrasena = TextEditingController();
+  final controladorConfirmarContrasena = TextEditingController();
+  String msg = "Mensaje";
+  String nombreUsuario = "No asignado";
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -30,30 +39,26 @@ class _InicioSesionState extends State<InicioSesion> {
           ),
           Text(
             "Crea tu cuenta para comenzar",
-            style: TextStyle(fontSize: 20, color: Colores.letra),
+            style: TextStyle(fontSize: 20, color: Colores.textos),
           ),
           Spacer(),
           Container(
-            height: 500,
+            height: 600,
             width: 300,
             color: Colores.primario,
             child: Padding(
               padding: const EdgeInsets.only(top: 25, left: 25),
               child: Column(
                 children: [
-                  Text(
-                    "Nombre",
-                    style: TextStyle(fontSize: 20, color: Colores.letra),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(decoration: InputDecoration(hintText: "Ingrese su nombre", border: OutlineInputBorder()),),
-                  ),
-                  ElevatedButton(onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Principal()));
-                  }, child: null,),
+                  TextoIs(texto: "Nombre:"),
+                  EntradaDeTextoIs(pista: "Ingrese su nombre", controlador: controladorNombre, contrasena: false),
+                  TextoIs(texto: "Correo:"),
+                  EntradaDeTextoIs(pista: "Ingrese su correo electronico", controlador: controladorCorreo, contrasena: false),
+                  TextoIs(texto: "Contraseña:"),
+                  EntradaDeTextoIs(pista: "Ingrese su contraseña", controlador: controladorContrasena, contrasena: true),
+                  TextoIs(texto: "Confirmar contraseña:"),
+                  EntradaDeTextoIs(pista: "Ingrese su contraseña", controlador: controladorConfirmarContrasena, contrasena: true),
+                  BtnCrearCuenta(controladorNombre: controladorNombre, controladorCorreo: controladorCorreo,)
                 ],
               ),
             ),
@@ -63,4 +68,5 @@ class _InicioSesionState extends State<InicioSesion> {
       ),
     );
   }
+  
 }

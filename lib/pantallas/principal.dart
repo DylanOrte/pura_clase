@@ -18,7 +18,7 @@ class _MyWidgetState extends State<Principal> {
           height: 150,
           width: double.infinity,
           alignment: Alignment.center,
-          child: Text("Llaves", style: TextStyle(color: Colores.letra, fontSize: 50, fontWeight:  FontWeight(700))),
+          child: Text("Llaves", style: TextStyle(color: Colores.textos, fontSize: 50, fontWeight:  FontWeight(700))),
         ),
         Text("Pabellón 1: ", style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight(500)),),
         SizedBox(height: 30,),

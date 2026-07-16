@@ -17,7 +17,7 @@ class _LlaveState extends State<Llave> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: profesor == "No tomada" ? Colores.fondo2 : Colores.secundario,
+        color: profesor == "No tomada" ? Colores.fondoClaro : Colores.primario,
       ),
       width: 150,
       height: 120,
@@ -72,8 +72,8 @@ class _LlaveState extends State<Llave> {
             padding: const EdgeInsets.only(top:65, left: 14),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colores.primario,
-                foregroundColor: Colores.fondo2
+                backgroundColor: Colores.secundario,
+                foregroundColor: Colores.fondoClaro
               ),
               onPressed: () {
               setState(() {
