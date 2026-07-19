@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pura_clase/diseños/colores.dart';
-class TextoIs extends StatefulWidget {
+class Texto_Is extends StatefulWidget {
   String texto = "Texto";
-  TextoIs({super.key, required this.texto});
+  Texto_Is({super.key, required this.texto});
 
   @override
-  State<TextoIs> createState() => _TextoIsState();
+  State<Texto_Is> createState() => _TextoIsState();
 }
 
-class _TextoIsState extends State<TextoIs> {
+class _TextoIsState extends State<Texto_Is> {
   @override
   Widget build(BuildContext context) {
     return Text(

@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pura_clase/componentes/toast.dart';
-import 'package:pura_clase/diseños/colores.dart';
+import 'package:pura_clase/pantallas/principal.dart';
 
-class BtnCrearCuenta extends StatefulWidget {
+class BtnIniciarsesion extends StatefulWidget {
   final TextEditingController controladorNombre;
   final TextEditingController controladorCorreo;
   final TextEditingController controladorContrasena;
   final TextEditingController controladorConfirmarContrasena;
 
-  const BtnCrearCuenta({
+  const BtnIniciarsesion({
     super.key,
     required this.controladorNombre,
     required this.controladorCorreo,
@@ -19,25 +19,23 @@ class BtnCrearCuenta extends StatefulWidget {
   });
 
   @override
-  State<BtnCrearCuenta> createState() => _BtnCrearCuentaState();
+  State<BtnIniciarsesion> createState() => _BtnIniciarsesionState();
 }
 
-class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
+class _BtnIniciarsesionState extends State<BtnIniciarsesion> {
   bool botonPrecionado = false;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colores.secundario,
-        foregroundColor: Colors.white,
-      ),
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         if (botonPrecionado == false) {
           funcionBoton();
-          botonPrecionado = true;
         }
       },
-      child: Text("Crear cuenta"),
+      child: Text(
+        "Iniciar Sesión",
+        style: TextStyle(fontSize: 15, color: Colors.white),
+      ),
     );
   }
 
@@ -49,7 +47,7 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
         ? widget.controladorCorreo.text.contains("@")
               ? widget.controladorContrasena.text ==
                         widget.controladorConfirmarContrasena.text
-                    ? crearUsuarioAPI()
+                    ? iniciarSesion()
                     : Toast.show(
                         context,
                         "Contraseñas diferentes, asegurese de escribirlas correctamente",
@@ -58,14 +56,17 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
         : Toast.show(context, "Debes completar todos los campos");
   }
 
-  void crearUsuarioAPI() async {
+  void iniciarSesion() async {
     String url = "http://10.0.2.2/api/api.php";
 
     final Map<String, String> body = {
+      "accion": "login",
       "nombre": widget.controladorNombre.text,
       "correo": widget.controladorCorreo.text,
       "contrasena": widget.controladorContrasena.text,
+      "proceder": "no",
     };
+
     try {
       http.Response respuesta = await http.post(
         Uri.parse(url),
@@ -74,7 +75,12 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
       if (respuesta.statusCode == 200) {
         setState(() {
           Toast.show(context, respuesta.body);
-        });
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Principal()),
+          );
+          }
+        );
       } else {
         setState(() {
           Toast.show(context, respuesta.body);

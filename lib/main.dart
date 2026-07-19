@@ -14,7 +14,7 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       home: Scaffold(
         backgroundColor: Colores.fondo,
-        body: InicioSesion()
+        body: Principal()
       ),
     );
   }
