@@ -59,7 +59,7 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
   }
 
   void crearUsuarioAPI() async {
-    String url = "http://10.0.2.2/api/api.php";
+    String url = "http://www.pura-clase-api.infinityfree.me/htdocs/";
 
     final Map<String, String> body = {
       "nombre": widget.controladorNombre.text,
@@ -71,6 +71,7 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
         Uri.parse(url),
         body: jsonEncode(body),
       );
+      print(respuesta.statusCode);
       if (respuesta.statusCode == 200) {
         setState(() {
           Toast.show(context, respuesta.body);

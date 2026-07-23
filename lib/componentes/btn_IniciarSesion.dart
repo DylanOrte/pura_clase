@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pura_clase/componentes/toast.dart';
 import 'package:pura_clase/pantallas/principal.dart';
+import 'package:pura_clase/pantallas/prueba.dart';
 
 class BtnIniciarsesion extends StatefulWidget {
   final TextEditingController controladorNombre;
@@ -57,14 +58,13 @@ class _BtnIniciarsesionState extends State<BtnIniciarsesion> {
   }
 
   void iniciarSesion() async {
-    String url = "http://10.0.2.2/api/api.php";
+    String url = "https://api-pura-clase.onrender.com/api/api.php";
 
     final Map<String, String> body = {
       "accion": "login",
       "nombre": widget.controladorNombre.text,
       "correo": widget.controladorCorreo.text,
       "contrasena": widget.controladorContrasena.text,
-      "proceder": "no",
     };
 
     try {
@@ -75,9 +75,12 @@ class _BtnIniciarsesionState extends State<BtnIniciarsesion> {
       if (respuesta.statusCode == 200) {
         setState(() {
           Toast.show(context, respuesta.body);
+          print(respuesta.body.toString());
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Principal()),
+            MaterialPageRoute(
+              builder: (context) => Prueba(respuesta: respuesta.body,),
+            ),
           );
           }
         );
