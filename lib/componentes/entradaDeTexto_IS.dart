@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:pura_clase/assets/colores.dart';
 class EntradaDeTextoIs extends StatefulWidget {
   final String pista;
   final TextEditingController controlador;
@@ -17,10 +17,18 @@ class _EntradaDeTextoIsState extends State<EntradaDeTextoIs> {
       child: TextField(
         obscureText: widget.contrasena,
         controller: widget.controlador,
+        cursorColor: Colores.textos2,
+        style: TextStyle(color: Colores.textos2),
         decoration: InputDecoration(
+          hintStyle: TextStyle(color: Colores.textos2),
+          filled: true,
+          fillColor: Colores.fondo,
           hintText: widget.pista,
-          border: OutlineInputBorder(),
-        ),
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ), 
       ),
     );
   }

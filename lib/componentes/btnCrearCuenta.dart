@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pura_clase/componentes/toast.dart';
-import 'package:pura_clase/diseños/colores.dart';
+import 'package:pura_clase/assets/colores.dart';
 
 class BtnCrearCuenta extends StatefulWidget {
   final TextEditingController controladorNombre;
@@ -28,8 +28,12 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+        fixedSize: Size(250, 50),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(16)),
+        textStyle: TextStyle(fontSize: 23, fontWeight: FontWeight(700)),
         backgroundColor: Colores.secundario,
         foregroundColor: Colors.white,
+        
       ),
       onPressed: () {
         if (botonPrecionado == false) {
@@ -59,7 +63,7 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
   }
 
   void crearUsuarioAPI() async {
-    String url = "http://www.pura-clase-api.infinityfree.me/htdocs/";
+    String url = "https://api-pura-clase.onrender.com/api/api.php";
 
     final Map<String, String> body = {
       "nombre": widget.controladorNombre.text,

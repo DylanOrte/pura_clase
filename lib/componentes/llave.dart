@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pura_clase/diseños/colores.dart';
+import 'package:pura_clase/assets/colores.dart';
 
 class Llave extends StatefulWidget {
   final String numLlave;

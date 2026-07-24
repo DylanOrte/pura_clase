@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pura_clase/componentes/llave.dart';
-import 'package:pura_clase/diseños/colores.dart';
+import 'package:pura_clase/assets/colores.dart';
 
 class Principal extends StatefulWidget {
   const Principal({super.key});

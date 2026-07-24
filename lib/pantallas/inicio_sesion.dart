@@ -1,7 +1,7 @@
 import 'package:pura_clase/componentes/btnCrearCuenta.dart';
 import 'package:pura_clase/componentes/entradaDeTexto_IS.dart';
 import 'package:pura_clase/componentes/texto_IS.dart';
-import 'package:pura_clase/diseños/colores.dart';
+import 'package:pura_clase/assets/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:pura_clase/componentes/btn_IniciarSesion.dart';
 class InicioSesion extends StatefulWidget {
@@ -28,10 +28,15 @@ class _InicioSesionState extends State<InicioSesion> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Spacer(),
+          Image.asset(
+            "lib/assets/imagenes/logoApp.png",
+            height: 100,
+          ),
+          const SizedBox(height: 12),
           Text(
             "PuraClase",
             style: TextStyle(
-              fontSize: 30,
+              fontSize: 34,
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
@@ -40,25 +45,30 @@ class _InicioSesionState extends State<InicioSesion> {
             "Crea tu cuenta para comenzar",
             style: TextStyle(fontSize: 20, color: Colores.textos),
           ),
-          Spacer(),
+          const SizedBox(height: 24),
           Container(
             height: 600,
-            width: 300,
-            color: Colores.primario,
+            width: 325,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colores.primario,),
             child: Padding(
-              padding: const EdgeInsets.only(top: 25, left: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  SizedBox(height: 10),
                   Texto_Is(texto: "Nombre:"),
                   EntradaDeTextoIs(pista: "Ingrese su nombre", controlador: controladorNombre, contrasena: false),
-                  Texto_Is(texto: "Correo:"),
+                  Texto_Is(texto: "Correo electrónico:"),
                   EntradaDeTextoIs(pista: "Ingrese su correo electronico", controlador: controladorCorreo, contrasena: false),
                   Texto_Is(texto: "Contraseña:"),
                   EntradaDeTextoIs(pista: "Ingrese su contraseña", controlador: controladorContrasena, contrasena: true),
                   Texto_Is(texto: "Confirmar contraseña:"),
                   EntradaDeTextoIs(pista: "Ingrese su contraseña", controlador: controladorConfirmarContrasena, contrasena: true),
+                  SizedBox(height: 5),
                   BtnCrearCuenta(controladorNombre: controladorNombre, controladorCorreo: controladorCorreo, controladorContrasena: controladorContrasena, controladorConfirmarContrasena: controladorConfirmarContrasena),
-                  BtnIniciarsesion(controladorNombre: controladorNombre, controladorCorreo: controladorCorreo, controladorContrasena: controladorContrasena, controladorConfirmarContrasena: controladorConfirmarContrasena)
+                  SizedBox(height: 5),
+                  BtnIniciarsesion(controladorNombre: controladorNombre, controladorCorreo: controladorCorreo, controladorContrasena: controladorContrasena, controladorConfirmarContrasena: controladorConfirmarContrasena),
+                  SizedBox(height: 10),
                 ],
               ),
             ),
