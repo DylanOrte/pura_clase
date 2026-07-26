@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pura_clase/componentes/toast.dart';
-import 'package:pura_clase/pantallas/principal.dart';
 import 'package:pura_clase/pantallas/prueba.dart';
 
 class BtnIniciarsesion extends StatefulWidget {
