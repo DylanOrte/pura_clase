@@ -4,7 +4,8 @@ class EntradaDeTextoIs extends StatefulWidget {
   final String pista;
   final TextEditingController controlador;
   final bool contrasena;
-  EntradaDeTextoIs({super.key, required this.pista, required this.controlador, required this.contrasena});
+  final int caracteresMax;
+  EntradaDeTextoIs({super.key, required this.pista, required this.controlador, required this.contrasena, required this.caracteresMax});
 
   @override
   State<EntradaDeTextoIs> createState() => _EntradaDeTextoIsState();
@@ -18,8 +19,10 @@ class _EntradaDeTextoIsState extends State<EntradaDeTextoIs> {
         obscureText: widget.contrasena,
         controller: widget.controlador,
         cursorColor: Colores.textos2,
+        maxLength: widget.caracteresMax,
         style: TextStyle(color: Colores.textos2),
         decoration: InputDecoration(
+          counterStyle: TextStyle(color: Colores.textos2), 
           hintStyle: TextStyle(color: Colores.textos2),
           filled: true,
           fillColor: Colores.fondo,
