@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pura_clase/pantallas/inicio_sesion.dart';
 import 'package:pura_clase/assets/colores.dart';
+import 'package:pura_clase/pantallas/prueba.dart';
 void main() {
   runApp(const MainApp());
 }
