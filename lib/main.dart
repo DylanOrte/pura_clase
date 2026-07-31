@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       home: Scaffold(
         backgroundColor: Colores.fondo,
-        body: Principal()
+        body: InicioSesion()
       ),
     );
   }
