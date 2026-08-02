@@ -13,9 +13,7 @@ class Prueba extends StatefulWidget {
 class _PruebaState extends State<Prueba> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colores.fondo,
-      body: Column(
+    return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -30,7 +28,6 @@ class _PruebaState extends State<Prueba> {
             ],
           ),
         ],
-      ),
-    );
+      );
   }
 }

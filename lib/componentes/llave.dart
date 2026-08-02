@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:pura_clase/assets/colores.dart';
 class Llave extends StatefulWidget {
   final String numLlave;
   final int? capacidad;
@@ -18,16 +18,8 @@ class _LlaveState extends State<Llave> {
   bool ocupada = false;
   String profesorNombre = '';
 
-  static const Color colorFondo = Color(0xFF0A1626);
-  static const Color teal = Color(0xFF14B8A6);
-  static const Color tealOscuro = Color(0xFF0D9488);
-  static const Color rojo = Color(0xFFEF4444);
-  static const Color rojoOscuro = Color(0xFFB91C1C);
-  static const Color muted = Color(0xFF8FA3B8);
-  static const Color texto = Color(0xFFF1F5F9);
-
-  Color get colorPrincipal => ocupada ? rojo : teal;
-  Color get colorSecundario => ocupada ? rojoOscuro : tealOscuro;
+  Color get colorPrincipal => ocupada ? Colores.rojo : Colores.secundario;
+  Color get colorSecundario => ocupada ? Colores.rojoOscuro : Colores.tercero;
 
   Future<void> _abrirDialogoTomarLlave() async {
     final controller = TextEditingController();
@@ -49,28 +41,28 @@ class _LlaveState extends State<Llave> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Tomar llave',
-                        style: TextStyle(color: texto, fontSize: 17, fontWeight: FontWeight.bold)),
+                        style: TextStyle(color: Colores.textos, fontSize: 17, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 4),
                     const Text('Escribe el nombre del profesor que se lleva la llave.',
-                        style: TextStyle(color: muted, fontSize: 13)),
+                        style: TextStyle(color: Colores.muted, fontSize: 13)),
                     const SizedBox(height: 14),
                     TextField(
                       controller: controller,
                       autofocus: true,
-                      style: const TextStyle(color: texto),
+                      style: const TextStyle(color: Colores.textos),
                       decoration: InputDecoration(
                         hintText: 'Ej: Josgart Torres',
-                        hintStyle: const TextStyle(color: muted),
+                        hintStyle: const TextStyle(color: Colores.muted),
                         errorText: error,
                         filled: true,
-                        fillColor: colorFondo,
+                        fillColor: Colores.fondo,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(color: Colors.white24),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: teal),
+                          borderSide: const BorderSide(color: Colores.secundario),
                         ),
                       ),
                       onSubmitted: (_) {
@@ -87,7 +79,7 @@ class _LlaveState extends State<Llave> {
                         Expanded(
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: muted,
+                              foregroundColor: Colores.muted,
                               side: const BorderSide(color: Colors.white24),
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -100,7 +92,7 @@ class _LlaveState extends State<Llave> {
                         Expanded(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: teal,
+                              backgroundColor: Colores.secundario,
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -151,7 +143,7 @@ class _LlaveState extends State<Llave> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [colorPrincipal.withOpacity(0.08), colorFondo.withOpacity(0.4)],
+          colors: [colorPrincipal.withOpacity(0.08), Colores.fondo.withOpacity(0.4)],
         ),
       ),
       child: Row(
@@ -176,20 +168,21 @@ class _LlaveState extends State<Llave> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Llave ${widget.numLlave}',
-                    style: const TextStyle(color: texto, fontSize: 19, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(color: Colores.textos, fontSize: 19, fontWeight: FontWeight.bold)),
+                // Probablemente borrable
                 if (widget.capacidad != null) ...[
                   const SizedBox(height: 2),
                   Row(
                     children: [
-                      const Icon(Icons.groups_outlined, size: 15, color: muted),
+                      const Icon(Icons.groups_outlined, size: 15, color: Colores.muted),
                       const SizedBox(width: 6),
-                      Text('Capacidad: ${widget.capacidad}', style: const TextStyle(color: muted, fontSize: 13)),
+                      Text('Capacidad: ${widget.capacidad}', style: const TextStyle(color: Colores.muted, fontSize: 13)),
                     ],
                   ),
                 ],
                 const SizedBox(height: 8),
                 if (ocupada) ...[
-                  const Text('Ocupada por', style: TextStyle(color: muted, fontSize: 12)),
+                  const Text('Ocupada por', style: TextStyle(color: Colores.muted, fontSize: 12)),
                   const SizedBox(height: 4),
                   Row(
                     children: [
@@ -198,14 +191,14 @@ class _LlaveState extends State<Llave> {
                         height: 30,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: rojo.withOpacity(0.25),
+                          color: Colores.rojo.withOpacity(0.25),
                         ),
-                        child: const Icon(Icons.person, size: 16, color: rojo),
+                        child: const Icon(Icons.person, size: 16, color: Colores.rojo),
                       ),
                       const SizedBox(width: 8),
                       Flexible(
                         child: Text(profesorNombre,
-                            style: const TextStyle(color: texto, fontSize: 14, fontWeight: FontWeight.w600),
+                            style: const TextStyle(color: Colores.textos, fontSize: 14, fontWeight: FontWeight.w600),
                             overflow: TextOverflow.ellipsis),
                       ),
                     ],
@@ -240,8 +233,8 @@ class _LlaveState extends State<Llave> {
               ? OutlinedButton.icon(
             onPressed: _entregarLlave,
             style: OutlinedButton.styleFrom(
-              foregroundColor: rojo,
-              side: const BorderSide(color: rojo, width: 1.5),
+              foregroundColor: Colores.rojo,
+              side: const BorderSide(color: Colores.rojo, width: 1.5),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
@@ -251,7 +244,7 @@ class _LlaveState extends State<Llave> {
               : ElevatedButton.icon(
             onPressed: _abrirDialogoTomarLlave,
             style: ElevatedButton.styleFrom(
-              backgroundColor: teal,
+              backgroundColor: Colores.secundario,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
