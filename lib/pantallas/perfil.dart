@@ -91,11 +91,32 @@ class _PerfilState extends State<Perfil> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Utiliza este código para tomar una llave",
+                    style: TextStyle(fontSize: 15, color: Colores.textos2),
+                  ),
                 ],
               ),
             ),
           ],
         ),
+        SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                  height: 75,
+                  width: 375,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colores.panelBg,
+                    border: Border.all(color: Colores.borde, width: 1),
+                  ),
+            
+                ),
+          ],
+        )
       ],
     );
   }

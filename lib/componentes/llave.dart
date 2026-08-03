@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pura_clase/assets/colores.dart';
+
 class Llave extends StatefulWidget {
   final String numLlave;
   final int? capacidad;
 
-  const Llave({
-    super.key,
-    required this.numLlave,
-    this.capacidad,
-  });
+  const Llave({super.key, required this.numLlave, this.capacidad});
 
   @override
   State<Llave> createState() => _LlaveState();
@@ -33,18 +30,28 @@ class _LlaveState extends State<Llave> {
           builder: (ctx, setDialogState) {
             return Dialog(
               backgroundColor: const Color(0xFF0F1F33),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Tomar llave',
-                        style: TextStyle(color: Colores.textos, fontSize: 17, fontWeight: FontWeight.bold)),
+                    const Text(
+                      'Tomar llave',
+                      style: TextStyle(
+                        color: Colores.textos,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    const Text('Escribe el nombre del profesor que se lleva la llave.',
-                        style: TextStyle(color: Colores.muted, fontSize: 13)),
+                    const Text(
+                      'Escribe el nombre del profesor que toma la llave.',
+                      style: TextStyle(color: Colores.muted, fontSize: 13),
+                    ),
                     const SizedBox(height: 14),
                     TextField(
                       controller: controller,
@@ -62,7 +69,9 @@ class _LlaveState extends State<Llave> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colores.secundario),
+                          borderSide: const BorderSide(
+                            color: Colores.secundario,
+                          ),
                         ),
                       ),
                       onSubmitted: (_) {
@@ -82,7 +91,9 @@ class _LlaveState extends State<Llave> {
                               foregroundColor: Colores.muted,
                               side: const BorderSide(color: Colors.white24),
                               padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                             onPressed: () => Navigator.pop(ctx),
                             child: const Text('Cancelar'),
@@ -95,16 +106,23 @@ class _LlaveState extends State<Llave> {
                               backgroundColor: Colores.secundario,
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                             onPressed: () {
                               if (controller.text.trim().isEmpty) {
-                                setDialogState(() => error = 'Escribe un nombre');
+                                setDialogState(
+                                  () => error = 'Escribe un nombre',
+                                );
                               } else {
                                 Navigator.pop(ctx, controller.text.trim());
                               }
                             },
-                            child: const Text('Confirmar', style: TextStyle(fontWeight: FontWeight.bold)),
+                            child: const Text(
+                              'Confirmar',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                       ],
@@ -143,7 +161,10 @@ class _LlaveState extends State<Llave> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [colorPrincipal.withOpacity(0.08), Colores.fondo.withOpacity(0.4)],
+          colors: [
+            colorPrincipal.withOpacity(0.08),
+            Colores.fondo.withOpacity(0.4),
+          ],
         ),
       ),
       child: Row(
@@ -160,29 +181,31 @@ class _LlaveState extends State<Llave> {
                 colors: [colorPrincipal, colorSecundario],
               ),
             ),
-            child: const Icon(Icons.vpn_key_outlined, color: Colors.white, size: 28),
+            child: const Icon(
+              Icons.vpn_key_outlined,
+              color: Colors.white,
+              size: 28,
+            ),
           ),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Llave ${widget.numLlave}',
-                    style: const TextStyle(color: Colores.textos, fontSize: 19, fontWeight: FontWeight.bold)),
-                // Probablemente borrable
-                if (widget.capacidad != null) ...[
-                  const SizedBox(height: 2),
-                  Row(
-                    children: [
-                      const Icon(Icons.groups_outlined, size: 15, color: Colores.muted),
-                      const SizedBox(width: 6),
-                      Text('Capacidad: ${widget.capacidad}', style: const TextStyle(color: Colores.muted, fontSize: 13)),
-                    ],
+                Text(
+                  'Llave ${widget.numLlave}',
+                  style: const TextStyle(
+                    color: Colores.textos,
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
+                ),
                 const SizedBox(height: 8),
                 if (ocupada) ...[
-                  const Text('Ocupada por', style: TextStyle(color: Colores.muted, fontSize: 12)),
+                  const Text(
+                    'Ocupada por',
+                    style: TextStyle(color: Colores.muted, fontSize: 12),
+                  ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
@@ -193,20 +216,31 @@ class _LlaveState extends State<Llave> {
                           shape: BoxShape.circle,
                           color: Colores.rojo.withOpacity(0.25),
                         ),
-                        child: const Icon(Icons.person, size: 16, color: Colores.rojo),
+                        child: const Icon(
+                          Icons.person,
+                          size: 16,
+                          color: Colores.rojo,
+                        ),
                       ),
                       const SizedBox(width: 8),
-                      Flexible(
-                        child: Text(profesorNombre,
-                            style: const TextStyle(color: Colores.textos, fontSize: 14, fontWeight: FontWeight.w600),
-                            overflow: TextOverflow.ellipsis),
+                      Text(
+                        profesorNombre,
+                        style: const TextStyle(
+                          color: Colores.textos,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                   const SizedBox(height: 8),
                 ],
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: colorPrincipal.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(20),
@@ -217,11 +251,20 @@ class _LlaveState extends State<Llave> {
                       Container(
                         width: 7,
                         height: 7,
-                        decoration: BoxDecoration(color: colorPrincipal, shape: BoxShape.circle),
+                        decoration: BoxDecoration(
+                          color: colorPrincipal,
+                          shape: BoxShape.circle,
+                        ),
                       ),
                       const SizedBox(width: 6),
-                      Text(ocupada ? 'Ocupada' : 'Disponible',
-                          style: TextStyle(color: colorPrincipal, fontSize: 12, fontWeight: FontWeight.bold)),
+                      Text(
+                        ocupada ? 'Ocupada' : 'Disponible',
+                        style: TextStyle(
+                          color: colorPrincipal,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -231,30 +274,45 @@ class _LlaveState extends State<Llave> {
           const SizedBox(width: 10),
           ocupada
               ? OutlinedButton.icon(
-            onPressed: _entregarLlave,
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colores.rojo,
-              side: const BorderSide(color: Colores.rojo, width: 1.5),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            ),
-            icon: const Icon(Icons.assignment_return_outlined, size: 18),
-            label: const Text('Entregar llave', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-          )
+                  onPressed: _entregarLlave,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colores.rojo,
+                    side: const BorderSide(color: Colores.rojo, width: 1.5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  icon: const Icon(Icons.assignment_return_outlined, size: 18),
+                  label: const Text(
+                    'Entregar llave',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                  ),
+                )
               : ElevatedButton.icon(
-            onPressed: _abrirDialogoTomarLlave,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colores.secundario,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            ),
-            icon: const Icon(Icons.vpn_key_outlined, size: 18),
-            label: const Text('Tomar llave', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-          ),
+                  onPressed: _abrirDialogoTomarLlave,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colores.secundario,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  icon: const Icon(Icons.vpn_key_outlined, size: 18),
+                  label: const Text(
+                    'Tomar llave',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                  ),
+                ),
         ],
       ),
     );
   }
 }
-

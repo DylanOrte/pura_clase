@@ -66,9 +66,7 @@ class _MyWidgetState extends State<Principal> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colores.fondo,
-      body: SafeArea(
+    return SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           children: [
@@ -89,8 +87,7 @@ class _MyWidgetState extends State<Principal> {
             for (int i = 0; i < pabellones.length; i++) _buildPabellon(i),
           ],
         ),
-      ),
-    );
+      );
   }
 
   Widget _buildPabellon(int i) {
