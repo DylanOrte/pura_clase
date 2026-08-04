@@ -224,14 +224,14 @@ class _LlaveState extends State<Llave> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        profesorNombre,
-                        style: const TextStyle(
-                          color: Colores.textos,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                          profesorNombre,
+                          style: const TextStyle(
+                            color: Colores.textos,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                      
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -249,8 +249,8 @@ class _LlaveState extends State<Llave> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 7,
-                        height: 7,
+                        width: double.minPositive,
+                        height: double.minPositive,
                         decoration: BoxDecoration(
                           color: colorPrincipal,
                           shape: BoxShape.circle,
@@ -271,27 +271,30 @@ class _LlaveState extends State<Llave> {
               ],
             ),
           ),
-          const SizedBox(width: 10),
+          
           ocupada
-              ? OutlinedButton.icon(
-                  onPressed: _entregarLlave,
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colores.rojo,
-                    side: const BorderSide(color: Colores.rojo, width: 1.5),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 12,
+              ? Container(
+                height: 50,
+                child: OutlinedButton.icon(
+                    onPressed: _entregarLlave,
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colores.rojo,
+                      side: const BorderSide(color: Colores.rojo, width: 1.5),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                    icon: const Icon(Icons.assignment_return_outlined, size: 18),
+                    label: const Text(
+                      'Entregar llave',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                     ),
                   ),
-                  icon: const Icon(Icons.assignment_return_outlined, size: 18),
-                  label: const Text(
-                    'Entregar llave',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                  ),
-                )
+              )
               : ElevatedButton.icon(
                   onPressed: _abrirDialogoTomarLlave,
                   style: ElevatedButton.styleFrom(

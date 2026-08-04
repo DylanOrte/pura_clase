@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pura_clase/componentes/toast.dart';
+import 'package:pura_clase/pantallas/controlador_pantallas.dart';
 import 'package:pura_clase/pantallas/principal.dart';
 
 
@@ -80,7 +81,7 @@ class _BtnIniciarsesionState extends State<BtnIniciarsesion> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Principal(),
+              builder: (context) => ControladorPantallas(nombreProfesor: widget.controladorNombre.text, correoProfesor: widget.controladorCorreo.text),
             ),
           );
           }

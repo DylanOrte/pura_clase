@@ -66,28 +66,31 @@ class _MyWidgetState extends State<Principal> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          children: [
-            Container(
-              height: 120,
-              width: double.infinity,
-              alignment: Alignment.center,
-              child: Text(
-                "Llaves",
-                style: TextStyle(
-                  color: Colores.textos,
-                  fontSize: 44,
-                  fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: Colores.fondo,
+      body: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            children: [
+              Container(
+                height: 120,
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: Text(
+                  "Llaves",
+                  style: TextStyle(
+                    color: Colores.textos,
+                    fontSize: 44,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-
-            for (int i = 0; i < pabellones.length; i++) _buildPabellon(i),
-          ],
+      
+              for (int i = 0; i < pabellones.length; i++) _buildPabellon(i),
+            ],
+          ),
         ),
-      );
+    );
   }
 
   Widget _buildPabellon(int i) {

@@ -5,7 +5,13 @@ import 'package:pura_clase/pantallas/principal.dart';
 import 'package:pura_clase/pantallas/perfil.dart';
 
 class ControladorPantallas extends StatefulWidget {
-  const ControladorPantallas({super.key});
+  final String nombreProfesor;
+  final String correoProfesor;
+  const ControladorPantallas({
+    super.key,
+    required this.nombreProfesor,
+    required this.correoProfesor,
+  });
 
   @override
   State<ControladorPantallas> createState() => _ControladorPantallasState();
@@ -13,11 +19,16 @@ class ControladorPantallas extends StatefulWidget {
 
 class _ControladorPantallasState extends State<ControladorPantallas> {
   int _indiceActual = 0;
+  late final List<Widget> _pantallas;
 
-  final List<Widget> _pantallas = const [
-    Principal(),
-    Perfil(respuesta: "hola",),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _pantallas = [
+      const Principal(),
+      Perfil(nombreProfesor: widget.nombreProfesor, correoProfesor: widget.correoProfesor),
+    ];
+  }
 
   void _onTabTapped(int indice) {
     setState(() {
@@ -36,9 +47,7 @@ class _ControladorPantallasState extends State<ControladorPantallas> {
     bottomNavigationBar: SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
+        child: Container(
             height: 78,
             decoration: BoxDecoration(
               color: Colores.panelBg,
@@ -70,7 +79,6 @@ class _ControladorPantallasState extends State<ControladorPantallas> {
           ),
         ),
       ),
-    ),
     );
   }
 }
