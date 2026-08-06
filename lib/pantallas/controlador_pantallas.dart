@@ -25,7 +25,7 @@ class _ControladorPantallasState extends State<ControladorPantallas> {
   void initState() {
     super.initState();
     _pantallas = [
-      const Principal(),
+      Principal(),
       Perfil(nombreProfesor: widget.nombreProfesor, correoProfesor: widget.correoProfesor),
     ];
   }
@@ -46,7 +46,7 @@ class _ControladorPantallasState extends State<ControladorPantallas> {
     ),
     bottomNavigationBar: SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 60),
         child: Container(
             height: 78,
             decoration: BoxDecoration(
