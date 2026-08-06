@@ -16,6 +16,18 @@ class ControladorPantallas extends StatefulWidget {
   @override
   State<ControladorPantallas> createState() => _ControladorPantallasState();
 }
+/*
+Posible solucion>=(preguntar a tu IA de confianza)
+Para solucionar que el botton navigation bar se superponga encima de la screen una posible
+solucion es crear dentro del Stack creado un positioned flotante y ahi mismo importar el widget de
+bottom navigation bar, ademas crear un archivo dedicado al bottonnavigationBar exclusivamente para orden
+que la estructura sea
+Stack(
+Child (pantallas)
+Positioned(
+bottomNavigationBar sin fondo, solamente el container)
+)
+* */
 
 class _ControladorPantallasState extends State<ControladorPantallas> {
   int _indiceActual = 0;
