@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pura_clase/pantallas/inicio_sesion.dart';
 import 'package:pura_clase/assets/colores.dart';
+import 'package:pura_clase/pantallas/principal.dart';
 import 'package:pura_clase/pantallas/prueba.dart';
 void main() {
   runApp(const MainApp());
@@ -14,7 +15,7 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       home: Scaffold(
         backgroundColor: Colores.fondo,
-        body: InicioSesion()
+        body: Principal()
       ),
     );
   }

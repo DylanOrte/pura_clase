@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:pura_clase/componentes/llave.dart';
 import 'package:pura_clase/assets/colores.dart';
+import 'package:pura_clase/componentes/toast.dart';
 
 class Principal extends StatefulWidget {
   const Principal({super.key});
@@ -16,11 +20,35 @@ class Pabellon {
 }
 
 class _MyWidgetState extends State<Principal> {
+  void conexionBD() async {
+    String url = "https://api-pura-clase.onrender.com/api/api.php";
+
+    try {
+      http.Response respuesta = await http.get(
+        Uri.parse(url),
+      );
+      if (respuesta.statusCode == 200) {
+        setState(() {
+          Toast.show(context, respuesta.body);
+          }
+        );
+      } else {
+        setState(() {
+          Toast.show(context, "No fue posible conectarse");
+        });
+      }
+    } catch (error) {
+      setState(() {
+        Toast.show(context, "Error");
+      });
+    }
+  }
   final List<Pabellon> pabellones = [
     Pabellon(
       nombre: "Pabellón 1",
       llaves: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
     ),
+    /*
     Pabellon(
       nombre: "Pabellón 2",
       llaves: [
@@ -60,12 +88,14 @@ class _MyWidgetState extends State<Principal> {
       llaves: ["36", "37", "39", "40", "41", "42"],
     ),
     Pabellon(nombre: "Salones", llaves: ["1", "2", "3", "4"]),
+  */
   ];
 
   int? indiceAbierto;
 
   @override
   Widget build(BuildContext context) {
+    conexionBD();
     return Scaffold(
       backgroundColor: Colores.fondo,
       body: SafeArea(

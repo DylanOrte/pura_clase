@@ -76,8 +76,7 @@ class _BtnIniciarsesionState extends State<BtnIniciarsesion> {
       );
       if (respuesta.statusCode == 200) {
         setState(() {
-          Toast.show(context, respuesta.body);
-          print(respuesta.body.toString());
+          Toast.show(context, "Inicio de sesion exitoso");
           Navigator.push(
             context,
             MaterialPageRoute(

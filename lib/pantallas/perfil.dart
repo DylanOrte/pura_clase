@@ -17,8 +17,8 @@ class _PerfilState extends State<Perfil> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colores.fondo,
-      body: ListView(
-        children: [Column(
+      body: SingleChildScrollView(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
@@ -149,7 +149,6 @@ class _PerfilState extends State<Perfil> {
             ),
           ],
         ),
-      ]
       ),
     );
   }
