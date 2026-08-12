@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:pura_clase/componentes/modelos.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pura_clase/componentes/llave.dart';
@@ -13,118 +13,88 @@ class Principal extends StatefulWidget {
   State<Principal> createState() => _MyWidgetState();
 }
 
-class Pabellon {
-  final String nombre;
-  final List<String> llaves;
-  Pabellon({required this.nombre, required this.llaves});
-}
-
 class _MyWidgetState extends State<Principal> {
-  void conexionBD() async {
-    String url = "https://api-pura-clase.onrender.com/api/api.php";
-
-    try {
-      http.Response respuesta = await http.get(
-        Uri.parse(url),
-      );
-      if (respuesta.statusCode == 200) {
-        setState(() {
-          Toast.show(context, respuesta.body);
-          }
-        );
-      } else {
-        setState(() {
-          Toast.show(context, "No fue posible conectarse");
-        });
-      }
-    } catch (error) {
-      setState(() {
-        Toast.show(context, "Error");
-      });
-    }
+  List<Pabellon> pabellones = [];
+  List<LlaveData> llaves = [];
+  
+  @override
+  void initState() {
+    super.initState();
+    conexionBD();
   }
-  final List<Pabellon> pabellones = [
-    Pabellon(
-      nombre: "Pabellón 1",
-      llaves: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
-    ),
-    /*
-    Pabellon(
-      nombre: "Pabellón 2",
-      llaves: [
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23",
-      ],
-    ),
-    Pabellon(
-      nombre: "Pabellón 3",
-      llaves: [
-        "24",
-        "25",
-        "26",
-        "27",
-        "28",
-        "29",
-        "30",
-        "31",
-        "32",
-        "33",
-        "34",
-        "35",
-      ],
-    ),
-    Pabellon(
-      nombre: "Ambientales",
-      llaves: ["36", "37", "39", "40", "41", "42"],
-    ),
-    Pabellon(nombre: "Salones", llaves: ["1", "2", "3", "4"]),
-  */
-  ];
+
+  bool cargando = true;
+  void conexionBD() async {
+    final uri = Uri.parse("http://10.0.2.2/api/api/api.php");
+    
+    try {
+    final response = await http.get(uri);
+    if (response.statusCode != 200) {
+      Toast.show(context, 'Error en la petición: ${response.statusCode}');
+    }
+    setState(() {
+      cargando = false;
+      return;
+    });
+
+    final decoded = jsonDecode(response.body);
+    final llavesJson = decoded['llaves'] as List<dynamic>;
+    final pabellonesJson = decoded['pabellones'] as List<dynamic>;
+
+    final todasLasLlaves = llavesJson
+        .map((l) => LlaveData.fromJson(l as Map<String, dynamic>))
+        .toList();
+    final nuevosPabellones = pabellonesJson
+        .map((p) => Pabellon.fromJson(p as Map<String, dynamic>))
+        .toList();
+    setState(() {
+      pabellones = nuevosPabellones;
+      llaves = todasLasLlaves;
+      cargando = false;
+    });
+  } catch (error) {
+    setState(() => cargando = false,);
+    if (mounted) {
+      Toast.show(context, error.toString());
+      print(error.toString());
+    }
+    
+  }
+  }
 
   int? indiceAbierto;
 
   @override
   Widget build(BuildContext context) {
-    conexionBD();
     return Scaffold(
       backgroundColor: Colores.fondo,
       body: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            children: [
-              Container(
-                height: 120,
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: Text(
-                  "Llaves",
-                  style: TextStyle(
-                    color: Colores.textos,
-                    fontSize: 44,
-                    fontWeight: FontWeight.bold,
-                  ),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          children: [
+            Container(
+              height: 120,
+              width: double.infinity,
+              alignment: Alignment.center,
+              child: Text(
+                "Llaves",
+                style: TextStyle(
+                  color: Colores.textos,
+                  fontSize: 44,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-      
-              for (int i = 0; i < pabellones.length; i++) _buildPabellon(i),
-            ],
-          ),
+            ),
+            for (int i = 0; i < pabellones.length; i++) _buildPabellon(i),
+          ],
         ),
+      ),
     );
   }
 
   Widget _buildPabellon(int i) {
     final pabellon = pabellones[i];
+    final llave = llaves;
     final abierto = indiceAbierto == i;
 
     return Container(
@@ -150,7 +120,7 @@ class _MyWidgetState extends State<Principal> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    pabellon.nombre,
+                    "Pabellon ${pabellon.id}",
                     style: TextStyle(
                       color: Colores.textos,
                       fontSize: 18,
@@ -173,10 +143,12 @@ class _MyWidgetState extends State<Principal> {
               padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
               child: Column(
                 children: [
-                  for (int j = 0; j < pabellon.llaves.length; j++) ...[
-                    Llave(numLlave: pabellon.llaves[j]),
-                    if (j != pabellon.llaves.length - 1)
-                      const SizedBox(height: 14),
+                  for (int j = 0; j < llave.length; j++) ...[
+                    if (llave[j].pabellon == pabellon.id)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        child: Llave(numLlave: llave[j].numero.toString()),
+                      ),
                   ],
                 ],
               ),
