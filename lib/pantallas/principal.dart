@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:pura_clase/componentes/llave.dart';
 import 'package:pura_clase/assets/colores.dart';
 import 'package:pura_clase/componentes/toast.dart';
+import 'package:pura_clase/pantallas/perfil.dart';
 
 class Principal extends StatefulWidget {
   const Principal({super.key});
@@ -22,44 +23,46 @@ class _MyWidgetState extends State<Principal> {
     super.initState();
     conexionBD();
   }
-
+/*
+Aqui fue donde remplaze el link nose si esta bien JAJAJAJA
+ */
   bool cargando = true;
   void conexionBD() async {
-    final uri = Uri.parse("http://10.0.2.2/api/api/api.php");
+    final uri = Uri.parse("https://api-pura-clase.onrender.com/api/api.php");
     
     try {
-    final response = await http.get(uri);
-    if (response.statusCode != 200) {
-      Toast.show(context, 'Error en la petición: ${response.statusCode}');
-    }
-    setState(() {
-      cargando = false;
-      return;
-    });
+      final response = await http.get(uri);
+      
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        final llavesJson = decoded['llaves'] as List<dynamic>;
+        final pabellonesJson = decoded['pabellones'] as List<dynamic>;
 
-    final decoded = jsonDecode(response.body);
-    final llavesJson = decoded['llaves'] as List<dynamic>;
-    final pabellonesJson = decoded['pabellones'] as List<dynamic>;
+        final todasLasLlaves = llavesJson
+            .map((l) => LlaveData.fromJson(l as Map<String, dynamic>))
+            .toList();
+        final nuevosPabellones = pabellonesJson
+            .map((p) => Pabellon.fromJson(p as Map<String, dynamic>))
+            .toList();
 
-    final todasLasLlaves = llavesJson
-        .map((l) => LlaveData.fromJson(l as Map<String, dynamic>))
-        .toList();
-    final nuevosPabellones = pabellonesJson
-        .map((p) => Pabellon.fromJson(p as Map<String, dynamic>))
-        .toList();
-    setState(() {
-      pabellones = nuevosPabellones;
-      llaves = todasLasLlaves;
-      cargando = false;
-    });
-  } catch (error) {
-    setState(() => cargando = false,);
-    if (mounted) {
-      Toast.show(context, error.toString());
-      print(error.toString());
+        setState(() {
+          pabellones = nuevosPabellones;
+          llaves = todasLasLlaves;
+          cargando = false;
+        });
+      } else {
+        setState(() => cargando = false);
+        if (mounted) {
+          Toast.show(context, 'Error del servidor: ${response.statusCode}');
+        }
+      }
+    } catch (error) {
+      setState(() => cargando = false);
+      if (mounted) {
+        Toast.show(context, 'Error de conexión: Verifica tu servidor local');
+        print("Error detallado: $error");
+      }
     }
-    
-  }
   }
 
   int? indiceAbierto;
@@ -75,14 +78,33 @@ class _MyWidgetState extends State<Principal> {
             Container(
               height: 120,
               width: double.infinity,
-              alignment: Alignment.center,
-              child: Text(
-                "Llaves",
-                style: TextStyle(
-                  color: Colores.textos,
-                  fontSize: 44,
-                  fontWeight: FontWeight.bold,
-                ),
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Llaves",
+                    style: TextStyle(
+                      color: Colores.textos,
+                      fontSize: 44,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Perfil(
+                            nombreProfesor: "Profesor de Prueba",
+                            correoProfesor: "prueba@puraclase.com",
+                          ),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.account_circle, color: Colores.secundario, size: 40),
+                  ),
+                ],
               ),
             ),
             for (int i = 0; i < pabellones.length; i++) _buildPabellon(i),
