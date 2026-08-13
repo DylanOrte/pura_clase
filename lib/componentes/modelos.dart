@@ -1,6 +1,6 @@
 class LlaveData {
   final int numero;
-  final String estado;
+  final int estado;
   final String? profesor;
   final int pabellon;
 
@@ -14,7 +14,7 @@ class LlaveData {
   factory LlaveData.fromJson(Map<String, dynamic> json) {
     return LlaveData(
       numero: int.tryParse(json['llave'].toString()) ?? 0,
-      estado: json['estado'].toString(),
+      estado: int.tryParse(json['estado'].toString()) ?? 0,
       profesor: json['profesor']?.toString(),
       pabellon: int.tryParse(json['pabellon'].toString()) ?? 0,
     );

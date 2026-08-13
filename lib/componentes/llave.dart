@@ -1,21 +1,27 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:pura_clase/componentes/toast.dart';
 import 'package:pura_clase/pantallas/escane.dart';
+import 'package:pura_clase/pantallas/principal.dart';
 
 class Llave extends StatefulWidget {
+  String? profesorNombre;
+  int? ocupada;
   final String numLlave;
 
-  const Llave({
+  Llave({
     super.key,
     required this.numLlave,
+    this.profesorNombre,
+    this.ocupada
   });
-
+  
   @override
   State<Llave> createState() => _LlaveState();
 }
-
 class _LlaveState extends State<Llave> {
-  bool ocupada = false;
-  String profesorNombre = '';
 
   static const Color colorFondo = Color(0xFF0A1626);
   static const Color teal = Color(0xFF14B8A6);
@@ -25,35 +31,49 @@ class _LlaveState extends State<Llave> {
   static const Color muted = Color(0xFF8FA3B8);
   static const Color texto = Color(0xFFF1F5F9);
 
-  Color get colorPrincipal => ocupada ? rojo : teal;
-  Color get colorSecundario => ocupada ? rojoOscuro : tealOscuro;
+  Color get colorPrincipal => widget.ocupada == 1 ? rojo : teal;
+  Color get colorSecundario => widget.ocupada == 1 ? rojoOscuro : tealOscuro;
 
-  /*Notas para el socio Dylan para que vea lo que hice: aqui se cambio el boton de tomar llave ahora apenas se
-  presiona se habre el escaner y ya no se introduce manual la informacion del profesor.
-   */
   Future<void> _escanearParaTomarLlave() async {
     final nombre = await Navigator.push<String>(
       context,
-      MaterialPageRoute(builder: (context) => const EscanerQR()),
+      MaterialPageRoute(builder: (context) => EscanerQR(numeroLlave: widget.numLlave)),
     );
 
     if (nombre != null && nombre.isNotEmpty) {
       setState(() {
-        ocupada = true;
-        profesorNombre = nombre;
+        widget.ocupada = 1;
+        widget.profesorNombre = nombre;
       });
     }
   }
 
-  void _entregarLlave() {
-    setState(() {
-      ocupada = false;
-      profesorNombre = '';
-    });
+  void _entregarLlave() async {
+    final Map<String, String> body = {
+      "llave" : widget.numLlave,
+      "estado" : "0",
+      "profesor" : "",
+    }; 
+      final uri = Uri.parse("https://api-pura-clase.onrender.com/api/api.php");
+
+      try {
+        final response = await http.put(uri, body: jsonEncode(body));
+        if (response.statusCode == 200) {
+          Toast.show(context, response.body);
+        } else {
+          Toast.show(context, "Error: ${response.body}");
+        } 
+      }catch (error) {
+        Toast.show(context, "Error en catch: $error");
+    }
   }
 
+  
   @override
   Widget build(BuildContext context) {
+    if (widget.profesorNombre == null) {
+    widget.profesorNombre = "";
+    } 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -89,7 +109,7 @@ class _LlaveState extends State<Llave> {
                 Text('Llave ${widget.numLlave}',
                     style: const TextStyle(color: texto, fontSize: 19, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                if (ocupada) ...[
+                if (widget.ocupada == 1) ...[
                   const Text('Ocupada por', style: TextStyle(color: muted, fontSize: 12)),
                   const SizedBox(height: 4),
                   Row(
@@ -105,7 +125,7 @@ class _LlaveState extends State<Llave> {
                       ),
                       const SizedBox(width: 8),
                       Flexible(
-                        child: Text(profesorNombre,
+                        child: Text(widget.profesorNombre!,
                             style: const TextStyle(color: texto, fontSize: 14, fontWeight: FontWeight.w600),
                             overflow: TextOverflow.ellipsis),
                       ),
@@ -120,7 +140,6 @@ class _LlaveState extends State<Llave> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
                         width: 7,
@@ -128,8 +147,8 @@ class _LlaveState extends State<Llave> {
                         decoration: BoxDecoration(color: colorPrincipal, shape: BoxShape.circle),
                       ),
                       const SizedBox(width: 6),
-                      Text(ocupada ? 'Ocupada' : 'Disponible',
-                          style: TextStyle(color: colorPrincipal, fontSize: 12, fontWeight: FontWeight.bold)),
+                      Text(widget.ocupada == 1 ? 'Ocupada' : 'Disponible',
+                          style: TextStyle(color: colorPrincipal, fontSize: 10, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -137,7 +156,7 @@ class _LlaveState extends State<Llave> {
             ),
           ),
           const SizedBox(width: 10),
-          ocupada
+          widget.ocupada == 1
               ? OutlinedButton.icon(
             onPressed: _entregarLlave,
             style: OutlinedButton.styleFrom(

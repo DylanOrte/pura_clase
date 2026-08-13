@@ -1,19 +1,43 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pura_clase/assets/colores.dart';
+import 'package:pura_clase/componentes/toast.dart';
+import 'package:pura_clase/pantallas/controlador_pantallas.dart';
 
 class EscanerQR extends StatefulWidget {
-  const EscanerQR({super.key});
+  final String numeroLlave;
+  const EscanerQR({super.key, required this.numeroLlave});
 
   @override
   State<EscanerQR> createState() => _EscanerQRState();
 }
-/*
-La forma mas facil de hacer el escaner era descargando un paquete que se llama mobile_escaner y
-luego ya nada mas hacer el widget y cambiar la funcion del boton para tomar la llave
-
- */
 class _EscanerQRState extends State<EscanerQR> {
+  String? code;
+  bool accionado = false;
+  void ocuparLlave() async {
+    final Map<String, String> body = {
+      "llave" : widget.numeroLlave,
+      "estado" : "1",
+      "profesor" : code!,
+    }; 
+      final uri = Uri.parse("https://api-pura-clase.onrender.com/api/api.php");
+
+      try {
+        final response = await http.put(uri, body: jsonEncode(body));
+        if (response.statusCode == 200) {
+          Toast.show(context, response.body);
+          await Future.delayed(Duration(milliseconds: 1000));
+          Navigator.pop(context);
+        } else {
+          Toast.show(context, "Error: ${response.body}");
+        } 
+      }catch (error) {
+        Toast.show(context, "Error en catch: $error");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,11 +52,10 @@ class _EscanerQRState extends State<EscanerQR> {
             onDetect: (capture) {
               final List<Barcode> barcodes = capture.barcodes;
               for (final barcode in barcodes) {
-                if (barcode.rawValue != null) {
-                  final String code = barcode.rawValue!;
-                  debugPrint('QR Encontrado: $code');
-                  Navigator.pop(context, code);
-                  break;
+                if (barcode.rawValue != null && accionado == false) {
+                  accionado = true;
+                  code = barcode.rawValue!;
+                  ocuparLlave();
                 }
               }
             },
@@ -48,7 +71,7 @@ class _EscanerQRState extends State<EscanerQR> {
             ),
           ),
           Positioned(
-            bottom: 50,
+            bottom: 150,
             left: 0,
             right: 0,
             child: Center(

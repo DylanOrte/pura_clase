@@ -23,9 +23,6 @@ class _MyWidgetState extends State<Principal> {
     super.initState();
     conexionBD();
   }
-/*
-Aqui fue donde remplaze el link nose si esta bien JAJAJAJA
- */
   bool cargando = true;
   void conexionBD() async {
     final uri = Uri.parse("https://api-pura-clase.onrender.com/api/api.php");
@@ -91,18 +88,8 @@ Aqui fue donde remplaze el link nose si esta bien JAJAJAJA
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Perfil(
-                            nombreProfesor: "Profesor de Prueba",
-                            correoProfesor: "prueba@puraclase.com",
-                          ),
-                        ),
-                      );
-                    },
-                    icon: Icon(Icons.account_circle, color: Colores.secundario, size: 40),
+                    onPressed: () {setState(() {conexionBD();});},
+                    icon: Icon(Icons.replay_outlined, color: Colores.secundario, size: 40),
                   ),
                 ],
               ),
@@ -113,12 +100,10 @@ Aqui fue donde remplaze el link nose si esta bien JAJAJAJA
       ),
     );
   }
-
   Widget _buildPabellon(int i) {
     final pabellon = pabellones[i];
     final llave = llaves;
     final abierto = indiceAbierto == i;
-
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
@@ -169,7 +154,7 @@ Aqui fue donde remplaze el link nose si esta bien JAJAJAJA
                     if (llave[j].pabellon == pabellon.id)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Llave(numLlave: llave[j].numero.toString()),
+                        child: Llave(numLlave: llave[j].numero.toString(), profesorNombre: llave[j].profesor, ocupada: llave[j].estado,),
                       ),
                   ],
                 ],

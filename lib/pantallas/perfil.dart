@@ -93,7 +93,7 @@ class _PerfilState extends State<Perfil> {
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: QrImageView(
-                              data: '${widget.nombreProfesor} ${widget.correoProfesor}',
+                              data: widget.nombreProfesor,
                               version: QrVersions.auto,
                             ),
                           ),
