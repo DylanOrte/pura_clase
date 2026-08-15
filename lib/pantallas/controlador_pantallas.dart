@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pura_clase/assets/colores.dart';
+import 'package:pura_clase/pantallas/administracion.dart';
 import 'package:pura_clase/pantallas/principal.dart';
 import 'package:pura_clase/pantallas/perfil.dart';
 
@@ -39,6 +40,7 @@ class _ControladorPantallasState extends State<ControladorPantallas> {
     _pantallas = [
       Principal(),
       Perfil(nombreProfesor: widget.nombreProfesor, correoProfesor: widget.correoProfesor),
+      Administracion()
     ];
   }
 
@@ -83,8 +85,9 @@ class _ControladorPantallasState extends State<ControladorPantallas> {
                 selectedLabelStyle: const TextStyle(height: 1.0),
                 unselectedLabelStyle: const TextStyle(height: 1.0),
                 items: const [
-                  BottomNavigationBarItem(icon: Icon(Icons.apartment), label: 'Aulas'),
+                  BottomNavigationBarItem(icon: Icon(Icons.apartment), label: 'Llaves'),
                   BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Perfil'),
+                  BottomNavigationBarItem(icon: Icon(Icons.admin_panel_settings_outlined), label: 'Admin')
                 ],
               ),
             ),

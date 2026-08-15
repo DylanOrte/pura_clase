@@ -5,7 +5,7 @@ class Toast {
     final overlay = Overlay.of(context);
     final overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        bottom: 50,
+        bottom: 100,
         left: 0,
         right: 0,
         child: Center(

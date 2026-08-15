@@ -1,25 +1,19 @@
-import 'dart:convert';
-import 'package:pura_clase/componentes/admin_llave.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:http/http.dart' as http;
 import 'package:pura_clase/assets/colores.dart';
-import 'package:pura_clase/componentes/modelos.dart';
-import 'package:pura_clase/componentes/toast.dart';
 
-class AdminLlaves extends StatefulWidget {
-  final llaves;
-  const AdminLlaves({super.key, required this.llaves});
+class AdminPabellones extends StatefulWidget {
+  final pabellones;
+  const AdminPabellones({super.key, required this.pabellones});
 
   @override
-  State<AdminLlaves> createState() => _AdminLlavesState();
+  State<AdminPabellones> createState() => _AdminPabellonesState();
 }
 
-class _AdminLlavesState extends State<AdminLlaves> {
+class _AdminPabellonesState extends State<AdminPabellones> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 385,
+      height: 250,
       width: 385,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -34,7 +28,7 @@ class _AdminLlavesState extends State<AdminLlaves> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(
-                  Icons.vpn_key_outlined,
+                  Icons.apartment_outlined,
                   color: Colores.secundario,
                   size: 30,
                 ),
@@ -43,11 +37,11 @@ class _AdminLlavesState extends State<AdminLlaves> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Llaves",
+                      "Pabellones",
                       style: TextStyle(fontSize: 15, color: Colores.textos),
                     ),
                     Text(
-                      "Administra las llaves disponibles",
+                      "Agrega o elimina pabellones",
                       style: TextStyle(fontSize: 12, color: Colores.textos2),
                     ),
                   ],
@@ -55,7 +49,7 @@ class _AdminLlavesState extends State<AdminLlaves> {
                 SizedBox(width: 15),
                 InkWell(
                   onTap: () {
-                    print(widget.llaves);
+                    print(widget.pabellones);
                   },
                   child: Container(
                     height: 34,
@@ -83,24 +77,6 @@ class _AdminLlavesState extends State<AdminLlaves> {
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-          SizedBox(height: 15),
-          Container(
-            height: 290,
-            width: 360,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Colores.panelBg,
-              border: Border.all(color: Colores.borde, width: 1),
-            ),
-            child: ListView(
-              padding: EdgeInsets.symmetric(vertical: 0),
-              children: [
-                for (int i = 0; i < widget.llaves.length; i++)
-                  AdminLlave(llave: widget.llaves[i]),
               ],
             ),
           ),
