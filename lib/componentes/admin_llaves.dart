@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:pura_clase/assets/colores.dart';
+import 'package:pura_clase/componentes/entradaDeTexto_IS.dart';
 import 'package:pura_clase/componentes/modelos.dart';
 import 'package:pura_clase/componentes/toast.dart';
+import 'package:pura_clase/componentes/ventanaEmerg.dart';
 
 class AdminLlaves extends StatefulWidget {
   final llaves;
@@ -38,49 +40,6 @@ class _AdminLlavesState extends State<AdminLlaves> {
     } catch (error) {
       Toast.show(context, error.toString());
     }
-  }
-
-  void _VentanaAnadirLlave() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          contentPadding: EdgeInsets.zero,
-          constraints: BoxConstraints(maxWidth: 325),
-          backgroundColor: Colors.transparent,
-          content: Container(
-            height: 450,
-            width: 325,
-            decoration: BoxDecoration(
-              color: Colores.panelBg,
-              border: Border.all(width: 1, color: Colores.borde),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 65,
-                  width: 65,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colores.secundario.withAlpha(25),
-                  ),
-                  child: Icon(
-                    Icons.vpn_key_outlined,
-                    color: Colores.secundario,
-                    size: 40,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text("Añadir llave", style: TextStyle(color: Colores.textos),)
-              ],
-            ),
-          ),
-        );
-      },
-    );
   }
 
   @override
@@ -123,7 +82,9 @@ class _AdminLlavesState extends State<AdminLlaves> {
                 InkWell(
                   onTap: () {
                     print(widget.llaves);
-                    _VentanaAnadirLlave();
+                    showDialog(context: context, builder:(context) {
+                      return Ventanaemerg();
+                    },);
                   },
                   child: Container(
                     height: 34,
