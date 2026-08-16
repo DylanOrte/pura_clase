@@ -16,6 +16,73 @@ class AdminLlaves extends StatefulWidget {
 }
 
 class _AdminLlavesState extends State<AdminLlaves> {
+  final controladorLlave = TextEditingController();
+  final controladorPabellon = TextEditingController();
+
+  void _anadirLlave() async {
+    final uri = Uri.parse("http://10.0.2.2/api/api/api.php");
+
+    final Map<String, String> body = {
+      "accion": "anadirLlave",
+      //"llave": widget.controladorLlave.text,
+      // "pabellon": widget.controladorPabellon.text,
+    };
+    try {
+      final response = await http.put(uri, body: body);
+
+      if (response.statusCode == 200) {
+        Toast.show(context, response.body);
+      } else {
+        Toast.show(context, response.statusCode.toString());
+      }
+    } catch (error) {
+      Toast.show(context, error.toString());
+    }
+  }
+
+  void _VentanaAnadirLlave() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          constraints: BoxConstraints(maxWidth: 325),
+          backgroundColor: Colors.transparent,
+          content: Container(
+            height: 450,
+            width: 325,
+            decoration: BoxDecoration(
+              color: Colores.panelBg,
+              border: Border.all(width: 1, color: Colores.borde),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 65,
+                  width: 65,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colores.secundario.withAlpha(25),
+                  ),
+                  child: Icon(
+                    Icons.vpn_key_outlined,
+                    color: Colores.secundario,
+                    size: 40,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text("Añadir llave", style: TextStyle(color: Colores.textos),)
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +96,7 @@ class _AdminLlavesState extends State<AdminLlaves> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 20, left: 15),
+            padding: const EdgeInsets.only(top: 20, left: 25),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -47,15 +114,16 @@ class _AdminLlavesState extends State<AdminLlaves> {
                       style: TextStyle(fontSize: 15, color: Colores.textos),
                     ),
                     Text(
-                      "Administra las llaves disponibles",
+                      "Agrega o elimina llaves",
                       style: TextStyle(fontSize: 12, color: Colores.textos2),
                     ),
                   ],
                 ),
-                SizedBox(width: 15),
+                SizedBox(width: 50),
                 InkWell(
                   onTap: () {
                     print(widget.llaves);
+                    _VentanaAnadirLlave();
                   },
                   child: Container(
                     height: 34,
