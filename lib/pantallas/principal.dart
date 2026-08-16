@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:pura_clase/componentes/llave.dart';
 import 'package:pura_clase/assets/colores.dart';
 import 'package:pura_clase/componentes/toast.dart';
-import 'package:pura_clase/pantallas/perfil.dart';
 
 class Principal extends StatefulWidget {
   const Principal({super.key});
@@ -57,7 +56,6 @@ class _MyWidgetState extends State<Principal> {
       setState(() => cargando = false);
       if (mounted) {
         Toast.show(context, 'Error de conexión: Verifica tu servidor local');
-        print("Error detallado: $error");
       }
     }
   }
@@ -154,7 +152,11 @@ class _MyWidgetState extends State<Principal> {
                     if (llave[j].pabellon == pabellon.id)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Llave(numLlave: llave[j].numero.toString(), profesorNombre: llave[j].profesor, ocupada: llave[j].estado,),
+                        child: Llave(
+                          numLlave: llave[j].numero.toString(),
+                          profesorNombre: llave[j].profesor ?? '',
+                          ocupada: llave[j].estado.toString(),
+                        ),
                       ),
                   ],
                 ],
