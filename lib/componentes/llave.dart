@@ -36,7 +36,6 @@ class _LlaveState extends State<Llave> {
   }
 
   void _entregarLlave() {
-    // Aquí puedes implementar la lógica para entregar la llave si es necesario
   }
 
   @override
