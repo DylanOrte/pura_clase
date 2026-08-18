@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pura_clase/componentes/toast.dart';
 import 'package:pura_clase/pantallas/controlador_pantallas.dart';
-import 'package:pura_clase/pantallas/principal.dart';
-
 
 class BtnIniciarsesion extends StatefulWidget {
   final TextEditingController controladorNombre;

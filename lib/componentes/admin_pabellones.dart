@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:pura_clase/assets/colores.dart';
 import 'package:pura_clase/componentes/toast.dart';
 
 class AdminPabellones extends StatefulWidget {
+  final llaves;
   final pabellones;
-  const AdminPabellones({super.key, required this.pabellones});
+  const AdminPabellones({super.key, required this.pabellones, required this.llaves});
 
   @override
   State<AdminPabellones> createState() => _AdminPabellonesState();
@@ -26,17 +28,18 @@ class _AdminPabellonesState extends State<AdminPabellones> {
 
     final Map<String, dynamic> body = {
       "accion": "anadirPabellon",
-      "pabellon": controladorPabellon.text,
+      "idpabellones": controladorPabellon.text,
     };
 
     try {
       final response = await http.post(
         Uri.parse("https://api-pura-clase.onrender.com/api/api.php"),
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
         body: jsonEncode(body),
       );
 
       if (response.statusCode == 200) {
-        Toast.show(context, "Pabellón añadido con éxito");
+        Toast.show(context, response.body);
         controladorPabellon.clear();
         Navigator.pop(context);
       } else {
@@ -46,6 +49,31 @@ class _AdminPabellonesState extends State<AdminPabellones> {
       Toast.show(context, "Error de conexión");
     } finally {
       setState(() => cargando = false);
+    }
+  }
+
+  void eliminarPabellon(BuildContext context, Pabellon) async {
+    final uri = Uri.parse("https://api-pura-clase.onrender.com/api/api.php");
+
+    final Map<String, dynamic> body = {
+      'accion': 'eliminarPabellon',
+      'idpabellones': Pabellon.id
+    };
+
+    try {
+      final response = await http.delete(
+        uri,
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 200) {
+        Toast.show(context, response.body);
+      } else {
+        Toast.show(context, response.body);
+      }
+    } catch (error) {
+      Toast.show(context, error.toString());
     }
   }
 
@@ -148,7 +176,7 @@ class _AdminPabellonesState extends State<AdminPabellones> {
     required TextEditingController controlador,
     required String label,
     required IconData icon,
-    TextInputType keyboardType = TextInputType.text,
+    TextInputType keyboardType = TextInputType.number,
   }) {
     return SizedBox(
       height: 50,
@@ -156,6 +184,7 @@ class _AdminPabellonesState extends State<AdminPabellones> {
       child: TextField(
         controller: controlador,
         keyboardType: keyboardType,
+        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly,],
         decoration: InputDecoration(
           labelText: label,
           labelStyle: TextStyle(color: Colores.secundario, fontSize: 14),
@@ -176,6 +205,7 @@ class _AdminPabellonesState extends State<AdminPabellones> {
   }
 
   Widget _buildPabellonItem(dynamic pabellon) {
+    int contador = 0;
     return Container(
       height: 70,
       decoration: BoxDecoration(
@@ -217,7 +247,16 @@ class _AdminPabellonesState extends State<AdminPabellones> {
           const SizedBox(width: 15),
           InkWell(
             onTap: () {
-              // Lógica para eliminar si fuera necesario
+              for (int i = 0; i < widget.llaves.length; i++) {
+                if (pabellon.id == widget.llaves[i].pabellon) {
+                  contador++;
+                } 
+              }
+              if (contador == 0) {
+                eliminarPabellon(context, pabellon);
+              } else {
+                Toast.show(context, "Solo se pueden eliminar pabellones vacios");
+              }
             },
             child: Icon(Icons.delete_outlined, color: Colores.rojo, size: 28),
           ),
@@ -230,7 +269,7 @@ class _AdminPabellonesState extends State<AdminPabellones> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 385, // Igualado al diseño de AdminLlaves
+      height: 340,
       width: 385,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -270,7 +309,7 @@ class _AdminPabellonesState extends State<AdminPabellones> {
                   },
                   child: Container(
                     height: 34,
-                    width: 120,
+                    width: 130,
                     decoration: BoxDecoration(
                       color: Colores.secundario.withAlpha(20),
                       border: Border.all(
@@ -287,7 +326,7 @@ class _AdminPabellonesState extends State<AdminPabellones> {
                           "Añadir Pabellón",
                           style: TextStyle(
                             color: Colores.secundario,
-                            fontSize: 13,
+                            fontSize: 12,
                           ),
                         ),
                       ],
@@ -299,7 +338,7 @@ class _AdminPabellonesState extends State<AdminPabellones> {
           ),
           const SizedBox(height: 15),
           Container(
-            height: 290, // Altura de la lista igual a AdminLlaves
+            height: 250,
             width: 360,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(

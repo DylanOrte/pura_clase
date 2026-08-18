@@ -16,8 +16,7 @@ class Administracion extends StatefulWidget {
 }
 
 class _AdministracionState extends State<Administracion> {
-
-   void initState() {
+  void initState() {
     super.initState();
     conexionBD();
   }
@@ -42,7 +41,6 @@ class _AdministracionState extends State<Administracion> {
         final nuevosPabellones = pabellonesJson
             .map((p) => Pabellon.fromJson(p as Map<String, dynamic>))
             .toList();
-        Toast.show(context, response.body);
         setState(() {
           pabellones = nuevosPabellones;
           llaves = todasLasLlaves;
@@ -58,7 +56,6 @@ class _AdministracionState extends State<Administracion> {
       setState(() => cargando = false);
       if (mounted) {
         Toast.show(context, 'Error de conexión: Verifica tu servidor local');
-        print("Error detallado: $error");
       }
     }
   }
@@ -67,38 +64,57 @@ class _AdministracionState extends State<Administracion> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colores.fondo,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 40, left: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Administración",
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+      body: ListView(
+        children: [Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 40, left: 30),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Administración",
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "Gestiona las llaves y pabellones",
+                        style: TextStyle(fontSize: 15, color: Colores.textos2),
+                      ),
+                    ],
                   ),
-                ),
-                Text(
-                  "Gestiona las llaves y pabellones",
-                  style: TextStyle(fontSize: 15, color: Colores.textos2),
-                ),
-              ],
+                  SizedBox(width: 60,),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        conexionBD();
+                      });
+                    },
+                    icon: Icon(
+                      Icons.replay_outlined,
+                      color: Colores.secundario,
+                      size: 40,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [AdminLlaves(llaves: llaves,)],
-          ),
-          SizedBox(height: 10),
-          Center(child: AdminPabellones(pabellones: pabellones,)),
-        ],
-      ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [AdminLlaves(llaves: llaves, pabellones: pabellones)],
+            ),
+            SizedBox(height: 10),
+            Center(child: AdminPabellones(pabellones: pabellones, llaves: llaves)),
+          ],
+        ),
+      ]),
     );
   }
 }

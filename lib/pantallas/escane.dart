@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pura_clase/assets/colores.dart';
 import 'package:pura_clase/componentes/toast.dart';
-import 'package:pura_clase/pantallas/controlador_pantallas.dart';
 
 class EscanerQR extends StatefulWidget {
   final String numeroLlave;

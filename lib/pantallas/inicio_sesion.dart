@@ -24,8 +24,8 @@ class _InicioSesionState extends State<InicioSesion> {
     return Scaffold(
       backgroundColor: Colores.fondo,
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
+        child: ListView(
+          children: [Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -105,7 +105,7 @@ class _InicioSesionState extends State<InicioSesion> {
                 ),
               ],
             ),
-        ),
+        ]),
       ),
     );
   }

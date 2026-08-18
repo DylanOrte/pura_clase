@@ -6,7 +6,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 class Perfil extends StatefulWidget {
   final String nombreProfesor;
   final String correoProfesor;
-  const Perfil({super.key, required this.nombreProfesor, required this.correoProfesor});
+  const Perfil({
+    super.key,
+    required this.nombreProfesor,
+    required this.correoProfesor,
+  });
 
   @override
   State<Perfil> createState() => _PerfilState();
@@ -113,23 +117,21 @@ class _PerfilState extends State<Perfil> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 75,
-                  width: 375,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colores.panelBg,
-                    border: Border.all(color: Colores.borde, width: 1),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const InicioSesion(),
-                        ),
-                      );
-                    },
+                InkWell(
+                  onTap:() {
+                    Navigator.pushAndRemoveUntil(context,
+                     MaterialPageRoute(builder: (context) => const InicioSesion()),
+                     (Route<dynamic> route) => false,
+                    );
+                  },
+                  child: Container(
+                    height: 75,
+                    width: 375,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colores.panelBg,
+                      border: Border.all(color: Colores.borde, width: 1),
+                    ),
                     child: Row(
                       children: [
                         SizedBox(width: 25),

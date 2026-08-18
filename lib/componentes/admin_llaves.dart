@@ -1,17 +1,12 @@
-import 'dart:convert';
 import 'package:pura_clase/componentes/admin_llave.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:http/http.dart' as http;
 import 'package:pura_clase/assets/colores.dart';
-import 'package:pura_clase/componentes/entradaDeTexto_IS.dart';
-import 'package:pura_clase/componentes/modelos.dart';
-import 'package:pura_clase/componentes/toast.dart';
 import 'package:pura_clase/componentes/ventanaEmerg.dart';
 
 class AdminLlaves extends StatefulWidget {
   final llaves;
-  const AdminLlaves({super.key, required this.llaves});
+  final pabellones;
+  const AdminLlaves({super.key, required this.llaves, required this.pabellones});
 
   @override
   State<AdminLlaves> createState() => _AdminLlavesState();
@@ -21,31 +16,10 @@ class _AdminLlavesState extends State<AdminLlaves> {
   final controladorLlave = TextEditingController();
   final controladorPabellon = TextEditingController();
 
-  void _anadirLlave() async {
-    final uri = Uri.parse("http://10.0.2.2/api/api/api.php");
-
-    final Map<String, String> body = {
-      "accion": "anadirLlave",
-      //"llave": widget.controladorLlave.text,
-      // "pabellon": widget.controladorPabellon.text,
-    };
-    try {
-      final response = await http.put(uri, body: body);
-
-      if (response.statusCode == 200) {
-        Toast.show(context, response.body);
-      } else {
-        Toast.show(context, response.statusCode.toString());
-      }
-    } catch (error) {
-      Toast.show(context, error.toString());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 385,
+      height: 350,
       width: 385,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -81,9 +55,8 @@ class _AdminLlavesState extends State<AdminLlaves> {
                 SizedBox(width: 50),
                 InkWell(
                   onTap: () {
-                    print(widget.llaves);
                     showDialog(context: context, builder:(context) {
-                      return Ventanaemerg();
+                      return Ventanaemerg(controladorLlave: controladorLlave, pabellones: widget.pabellones);
                     },);
                   },
                   child: Container(
@@ -117,7 +90,7 @@ class _AdminLlavesState extends State<AdminLlaves> {
           ),
           SizedBox(height: 15),
           Container(
-            height: 290,
+            height: 260,
             width: 360,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
