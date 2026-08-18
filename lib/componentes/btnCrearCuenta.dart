@@ -77,9 +77,7 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
       );
       print(respuesta.statusCode);
       if (respuesta.statusCode == 200) {
-        setState(() {
-          Toast.show(context, respuesta.body);
-        });
+        _mostrarDialogoSolicitud();
       } else {
         setState(() {
           Toast.show(context, respuesta.body);
@@ -92,5 +90,47 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
     } finally {
       botonPrecionado = false;
     }
+  }
+
+  void _mostrarDialogoSolicitud() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 10),
+              const Icon(Icons.check_circle_outline, color: Colors.green, size: 60),
+              const SizedBox(height: 20),
+              const Text(
+                "Solicitud enviada",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  minimumSize: const Size(120, 45),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK", style: TextStyle(fontSize: 18)),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
