@@ -24,69 +24,63 @@ class BtnIniciarsesion extends StatefulWidget {
 
 class _BtnIniciarsesionState extends State<BtnIniciarsesion> {
   bool cargando = false;
+  String? respuestaApi;
+  void funcionBoton() {
+    widget.controladorCorreo.text != "" &&
+            widget.controladorContrasena.text != ""
+        ? widget.controladorCorreo.text.contains("@")
+              ? iniciarSesion()
+              : Toast.show(context, "Correo inválido")
+        : Toast.show(context, "Debes completar todos los campos");
+  }
 
   void iniciarSesion() async {
-    final correo = widget.controladorCorreo.text.trim();
-    final pass = widget.controladorContrasena.text.trim();
+    String url = "https://api-pura-clase.onrender.com/api/api.php";
 
-
-    if (correo.isEmpty || pass.isEmpty) {
-      Toast.show(context, "Por favor complete todos los campos");
-      return;
-    }
-
-    setState(() => cargando = true);
-    const String url = "https://api-pura-clase.onrender.com/api/api.php";
+    final Map<String, String> body = {
+      "accion": "login",
+      "correo": widget.controladorCorreo.text,
+      "contrasena": widget.controladorContrasena.text,
+    };
 
     try {
-      final response = await http.post(
+      http.Response respuesta = await http.post(
         Uri.parse(url),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "accion": "login",
-          "nombre": widget.controladorNombre.text.trim(),
-          "correo": correo,
-          "contrasena": pass,
-          "proceder": "no",
-        }),
-      ).timeout(const Duration(seconds: 45));
-
-      if (response.statusCode == 200) {
-        if (mounted) {
-          Toast.show(context, "Inicio de sesión exitoso");
-
-          String nombreAMostrar = "Profesor";
-          try {
-            final data = jsonDecode(response.body);
-            if (data['nombre'] != null) nombreAMostrar = data['nombre'];
-          } catch (_) {
-
-          }
-
-          Navigator.pushReplacement(
+        body: jsonEncode(body),
+      );
+      if (respuesta.statusCode == 200) {
+        setState(() {
+          Toast.show(context, "Inicio de sesion exitoso");
+          respuestaApi = jsonDecode(respuesta.body);
+          print(respuestaApi);
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ControladorPantallas(
-                nombreProfesor: nombreAMostrar,
-                correoProfesor: correo,
+                nombreProfesor: respuestaApi!,
+                correoProfesor: widget.controladorCorreo.text,
               ),
             ),
           );
-        }
+        });
       } else {
-        if (mounted) Toast.show(context, "Error: ${response.body}");
+        setState(() {
+          Toast.show(context, respuesta.body);
+        });
       }
-    } catch (e) {
-      if (mounted) Toast.show(context, "Error de conexión: Intente de nuevo");
+    } catch (error) {
+      setState(() {
+        Toast.show(context, "Error");
+      });
     } finally {
-      if (mounted) setState(() => cargando = false);
+      cargando = false;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: cargando ? null : iniciarSesion,
+      onTap: cargando ? null : funcionBoton,
       child: Container(
         alignment: Alignment.center,
         height: 45,
@@ -94,11 +88,25 @@ class _BtnIniciarsesionState extends State<BtnIniciarsesion> {
         decoration: BoxDecoration(
           color: Colors.white10,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.white24)
+          border: Border.all(color: Colors.white24),
         ),
-        child: cargando 
-          ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-          : const Text("Iniciar Sesión", style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
+        child: cargando
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
+            : const Text(
+                "Iniciar Sesión",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
       ),
     );
   }

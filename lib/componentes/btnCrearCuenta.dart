@@ -28,21 +28,23 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
       Toast.show(context, "Debes completar todos los campos");
       return;
     }
-
+    if (!correo.contains("@")) {
+      Toast.show(context, "Correo no valido");
+      return;
+    }
     if (pass != confirmPass) {
       Toast.show(context, "Las contraseñas no coinciden");
       return;
     }
-
     setDialogState(() => cargando = true);
     const String url = "https://api-pura-clase.onrender.com/api/api.php";
-
+  
     try {
       final respuesta = await http.post(
         Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
-          "accion": "crear",
+          "accion": "crearCuenta",
           "nombre": nombre,
           "correo": correo,
           "contrasena": pass,
@@ -51,8 +53,8 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
 
       if (respuesta.statusCode == 200) {
         if (context.mounted) {
-          Navigator.pop(context); // Cierra el diálogo de registro
-          Toast.show(context, "Solicitud enviada");
+          Navigator.pop(context); 
+          Toast.show(context, "Cuenta creada exitosamente");
           controladorNombre.clear();
           controladorCorreo.clear();
           controladorContrasena.clear();
@@ -76,11 +78,11 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
-              backgroundColor: Colors.white,
+              backgroundColor: Colores.panelBg,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               title: const Text(
                 "Crear Cuenta",
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colores.textos, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               content: SingleChildScrollView(
@@ -104,7 +106,7 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
+                    backgroundColor: Colores.secundario,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
@@ -125,13 +127,13 @@ class _BtnCrearCuentaState extends State<BtnCrearCuenta> {
     return TextField(
       controller: controller,
       obscureText: isPass,
-      style: const TextStyle(color: Colors.black),
+      style: const TextStyle(color: Colores.textos2),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: const TextStyle(color: Colors.grey),
-        prefixIcon: Icon(icon, color: Colors.black54),
+        hintStyle: const TextStyle(color: Colores.textos2),
+        prefixIcon: Icon(icon, color: Colores.secundario),
         filled: true,
-        fillColor: Colors.grey[100],
+        fillColor: Colores.fondo,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,

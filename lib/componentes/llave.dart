@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:pura_clase/componentes/toast.dart';
 import 'package:pura_clase/pantallas/escane.dart';
 
 class Llave extends StatefulWidget {
@@ -35,9 +38,25 @@ class _LlaveState extends State<Llave> {
     );
   }
 
-  void _entregarLlave() {
-  }
+  void _entregarLlave() async {
+    final Map<String, String> body = {
+      "llave" : widget.numLlave,
+      "estado" : "0",
+      "profesor" : "",
+    }; 
+      final uri = Uri.parse("https://api-pura-clase.onrender.com/api/api.php");
 
+      try {
+        final response = await http.put(uri, body: jsonEncode(body));
+        if (response.statusCode == 200) {
+          Toast.show(context, response.body);
+        } else {
+          Toast.show(context, "Error: ${response.body}");
+        } 
+      }catch (error) {
+        Toast.show(context, "Error en catch: $error");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final estaOcupada = widget.ocupada == "1";

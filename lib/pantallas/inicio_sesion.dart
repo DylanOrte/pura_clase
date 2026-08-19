@@ -28,6 +28,8 @@ class _InicioSesionState extends State<InicioSesion> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 50),
+              Image.asset("lib/assets/imagenes/logoApp.png", height: 90),
+              const SizedBox(height: 12),
               const Text(
                 "PuraClase",
                 style: TextStyle(fontSize: 34, color: Colors.white, fontWeight: FontWeight.bold),
@@ -71,7 +73,9 @@ class _InicioSesionState extends State<InicioSesion> {
                     ),
                     const SizedBox(height: 25),
                     const Divider(color: Colors.white10),
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 10),
+                    Text("Eres nuevo?", style: TextStyle(color: Colores.textos, fontSize: 15),),
+                    const SizedBox(height: 15),
                     const BtnCrearCuenta(),
                   ],
                 ),
